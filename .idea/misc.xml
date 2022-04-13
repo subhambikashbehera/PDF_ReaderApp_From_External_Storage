@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/NHI122/AndroidStudioProjects/PDF_ReaderApp_From_External_Storage/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/NHI122/AndroidStudioProjects/PDF_ReaderApp_From_External_Storage/app/src/main/res/layout/activity_pdf_viewer.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/NHI122/AndroidStudioProjects/PDF_ReaderApp_From_External_Storage/app/src/main/res/layout/pdf_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/NHI122/AndroidStudioProjects/PDF_ReaderApp_From_External_Storage/app/src/main/res/xml/file_paths.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
