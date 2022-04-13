@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PDF_ReaderApp_From_External_Storage</string>
+    <string name="pdf_file">pdf_file</string>
+</resources>
