@@ -1,17 +1,25 @@
 package com.vichayan.pdf_readerapp_from_external_storage
 
+import android.app.Activity
+import android.app.Instrumentation
+import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
+import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.Nullable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var pdfRecyclerViewAdapter: PdfRecyclerViewAdapter
@@ -24,16 +32,26 @@ class MainActivity : AppCompatActivity() {
         recyclerView=findViewById(R.id.recyclerView)
         initializeRecyclerView()
 
+
+
         if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                android.Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
         ) {
-            resultLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (SDK_INT >= Build.VERSION_CODES.R) {
+                try {
+                    val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                    intent.addCategory("android.intent.category.DEFAULT")
+                    intent.data = Uri.parse(String.format("package:%s", applicationContext.packageName))
+                   resultLauncher1.launch(intent)
+                } catch (e: Exception) {
+                  e.printStackTrace()
+                }
+            } else {
+                resultLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
         } else {
             showPdf(dirs)
         }
-
-
-
 
 
     }
@@ -73,4 +91,18 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
     }
+
+
+    private val resultLauncher1=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            if (it.resultCode==Activity.RESULT_OK) {
+                showPdf(dirs)
+            } else {
+                Toast.makeText(this, "Allow permission for storage access!", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+
 }
